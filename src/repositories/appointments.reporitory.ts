@@ -2,14 +2,19 @@ import Appointment from '../models/Appointment';
 
 import { EntityRepository, Repository } from 'typeorm';
 
-interface CreateAppointmentsDTO {
-    provider: string;
+interface findByDate {
+    provider_id: string;
     date: Date;
 }
 @EntityRepository(Appointment)
 class AppointmentsRepository extends Repository<Appointment> {
-    public async findByDate(date: Date): Promise<Appointment | null> {
-        const findAppointment = await this.findOne({ where: { date } });
+    public async findByDate({
+        provider_id,
+        date,
+    }: findByDate): Promise<Appointment | null> {
+        const findAppointment = await this.findOne({
+            where: { provider_id, date },
+        });
 
         return findAppointment || null;
     }

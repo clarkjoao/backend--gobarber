@@ -5,23 +5,22 @@ import {
     CreateDateColumn,
     UpdateDateColumn,
     ManyToOne,
-    JoinTable,
+    JoinColumn,
 } from 'typeorm';
-import Users from './Users';
+
+import User from './Users';
 
 @Entity('appointments')
 class Appointment {
     @PrimaryGeneratedColumn('uuid')
-    id: String;
+    id: string;
 
-    @Column('')
-    provider_id: String;
-    // provider_id: number;
+    @Column()
+    provider_id: string;
 
-    //Relacionamentos
-    @ManyToOne(() => Users)
-    @JoinTable({ name: 'provider_id' })
-    provider: Users;
+    @ManyToOne(() => User)
+    @JoinColumn({ name: 'provider_id' })
+    provider: User;
 
     @Column('timestamp with time zone')
     date: Date;

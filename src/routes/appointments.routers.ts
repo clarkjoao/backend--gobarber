@@ -6,7 +6,6 @@ import AppointmentRepository from '../repositories/appointments.reporitory';
 import CreateAppointmentService from '../services/CreateAppointmentServices';
 
 const appointmentsRouter = Router();
-// const appointmentRepository = new AppointmentRepository();
 
 appointmentsRouter.get('/', async (request, response) => {
     const appointmentRepository = getCustomRepository(AppointmentRepository);

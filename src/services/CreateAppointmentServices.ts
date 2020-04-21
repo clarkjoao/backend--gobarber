@@ -13,16 +13,17 @@ class CreateAppointmentService {
             AppointmentRepository,
         );
         const appointmentDate = startOfHour(date);
-        const findAppointment = await appointmentRepository.findByDate(
-            appointmentDate,
-        );
+        const findAppointment = await appointmentRepository.findByDate({
+            provider_id,
+            date: appointmentDate,
+        });
 
         if (findAppointment) {
             throw Error('This appointment is aready book ');
         }
         const appointment = await appointmentRepository.create({
-            provider_id,
             date: appointmentDate,
+            provider_id,
         });
         await appointmentRepository.save(appointment);
         return appointment;
