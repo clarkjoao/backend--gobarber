@@ -2,16 +2,17 @@ import Users from '../models/Users';
 import { compare } from 'bcryptjs';
 import { sign } from 'jsonwebtoken';
 import { getRepository } from 'typeorm';
+import AppErros from '../errors/AppErros';
 import jwtConfig from '../config/auth';
 interface Request {
     email: String;
 
-    password: String;
+    password: string;
 }
 
 interface Response {
     user: Users;
-    token: String;
+    token: string;
 }
 class AuthenticateUserServices {
     public async execute({ email, password }: Request): Promise<Response> {
@@ -22,13 +23,13 @@ class AuthenticateUserServices {
         });
 
         if (!user) {
-            throw new Error('Incorrect Email/Password combination');
+            throw new AppErros('Incorrect Email/Password combination', 401);
         }
 
         const checkPass = await compare(password, user.password);
 
         if (!checkPass) {
-            throw new Error('Incorrect Email/Password combination');
+            throw new AppErros('Incorrect Email/Password combination', 401);
         }
         const { secret, expiresIn } = jwtConfig.jwt;
 

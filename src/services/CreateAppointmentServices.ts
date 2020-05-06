@@ -1,6 +1,7 @@
 import { startOfHour } from 'date-fns';
 import { getCustomRepository } from 'typeorm';
 import Appointment from '../models/Appointment';
+import AppErros from '../errors/AppErros';
 import AppointmentRepository from '../repositories/appointments.reporitory';
 interface Request {
     provider_id: string;
@@ -19,7 +20,7 @@ class CreateAppointmentService {
         });
 
         if (findAppointment) {
-            throw Error('This appointment is aready book ');
+            throw new AppErros('This appointment is aready book ');
         }
         const appointment = await appointmentRepository.create({
             date: appointmentDate,

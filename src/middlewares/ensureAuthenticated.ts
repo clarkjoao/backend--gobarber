@@ -1,5 +1,6 @@
 import { Response, Request, NextFunction } from 'express';
 import { verify } from 'jsonwebtoken';
+import AppErros from '../errors/AppErros';
 import jwtConfig from '../config/auth';
 
 interface TokenPayload {
@@ -14,7 +15,7 @@ export default function ensureAuthenticated(
 ): void {
     const { authorization } = request.headers;
     if (!authorization) {
-        throw new Error('Token not exists');
+        throw new AppErros('Token not exists', 401);
     }
 
     const [, token] = authorization.split(' ');
@@ -24,6 +25,6 @@ export default function ensureAuthenticated(
         request.user = { id: sub };
         return next();
     } catch {
-        throw new Error('Token is invalid');
+        throw new AppErros('Token is invalid', 401);
     }
 }
